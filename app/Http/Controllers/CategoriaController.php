@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Categoria;
 
 class CategoriaController extends Controller
 {
@@ -13,7 +14,8 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        return view("admin.categoria.listar");
+        $categorias = Categoria::all();
+        return view("admin.categoria.listar", compact("categorias"));
     }
 
     /**
@@ -23,7 +25,7 @@ class CategoriaController extends Controller
      */
     public function create()
     {
-        return view("admin.cliente.crear");
+        return view("admin.categoria.crear");
     }
 
     /**
@@ -34,7 +36,21 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validar
+        $reglas = [
+            "nombre" => "required|unique:categorias|min:3|max:30",
+            "detalle" => "required"
+        ];
+
+        $request->validate($reglas);
+
+        // Guardar en la base de datos
+        $cat = new Categoria;
+        $cat->nombre = $request->nombre;
+        $cat->detalle = $request->detalle;
+        $cat->save();
+
+        return redirect("/categoria");
     }
 
     /**
@@ -45,7 +61,8 @@ class CategoriaController extends Controller
      */
     public function show($id)
     {
-        return view("admin.categoria.mostrar");
+        $categoria = Categoria::find($id);
+        return view("admin.categoria.mostrar", compact("categoria"));
     }
 
     /**
@@ -56,7 +73,8 @@ class CategoriaController extends Controller
      */
     public function edit($id)
     {
-        return view("admin.categoria.editar");
+        $categoria = Categoria::find($id);
+        return view("admin.categoria.editar", compact("categoria"));
     }
 
     /**
@@ -68,7 +86,12 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $cat = Categoria::find($id);
+        $cat->nombre = $request->nombre;
+        $cat->detalle = $request->detalle;
+        $cat->save();
+
+        return redirect("/categoria");
     }
 
     /**
@@ -79,6 +102,8 @@ class CategoriaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cat = Categoria::find($id);
+        $cat->delete();
+        return redirect("/categoria");
     }
 }
