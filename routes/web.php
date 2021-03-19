@@ -19,3 +19,5 @@ Route::resource("/pedido", PedidoController::class);
 Route::resource("/usuario", UsuarioController::class);
 Route::resource("/role", RoleController::class);
 
+//Route::get("/qr", [CategoriaController::class, "generarQR"]);
+

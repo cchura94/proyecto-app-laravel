@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Categoria;
+use Carbon\Carbon;
 
 class CategoriaController extends Controller
 {
@@ -12,11 +13,26 @@ class CategoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categorias = Categoria::all();
+        if($request->fini){
+            $f_ini = $request->fini;
+            $f_fin = $request->ffin;
+
+            $categorias = Categoria::where("created_at", ">", $f_ini)
+                        ->where("created_at", "<=", $f_fin)->paginate(15);
+        }else{
+            if($request->buscar){
+                $categorias = Categoria::where("nombre", "like", "%".$request->buscar."%")->paginate(5);
+            }else{
+                $categorias = Categoria::paginate(5); 
+            }
+           //return Carbon::parse("18-03-2021")->translatedFormat("d \de F \de\l Y");
+        }   
         return view("admin.categoria.listar", compact("categorias"));
-    }
+                 
+       
+      }
 
     /**
      * Show the form for creating a new resource.
@@ -106,4 +122,6 @@ class CategoriaController extends Controller
         $cat->delete();
         return redirect("/categoria");
     }
+
+    
 }

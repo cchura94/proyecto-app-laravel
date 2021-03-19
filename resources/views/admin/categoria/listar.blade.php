@@ -1,5 +1,16 @@
 <h1>Listar Categorias</h1>
 <a href="/categoria/create">Nueva Categoria</a>
+
+<form action="/categoria" method="get">
+    <input type="search" name="buscar">
+    <input type="submit" value="buscar">
+</form>
+
+<form action="/categoria" method="get">
+    <input type="date" name="fini">
+    <input type="date" name="ffin">
+    <input type="submit">
+</form>
 <table border="1">
     <tr>
         <td>ID</td>
@@ -25,3 +36,6 @@
     </tr>
     @endforeach
 </table>
+
+TOTAL: {{ $categorias->total() }}
+{{ $categorias->links() }}
