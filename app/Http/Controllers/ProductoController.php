@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Producto;
+use App\Models\Categoria;
 
 class ProductoController extends Controller
 {
@@ -13,7 +15,8 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        //
+        $productos = Producto::paginate(10);
+        return view("admin.producto.listar", compact("productos"));
     }
 
     /**
@@ -23,7 +26,8 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        //
+        $categorias = Categoria::all();
+        return view("admin.producto.crear", compact("categorias"));
     }
 
     /**
@@ -34,7 +38,21 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validar
+        $request->validate([
+            "nombre" => "required|min:2|max:200",
+
+        ]);
+        //guardar en la BD
+        $prod = new Producto;
+        $prod->nombre = $request->nombre;
+        $prod->precio = $request->precio;
+        $prod->cantidad = $request->cantidad;
+        $prod->descripcion = $request->descripcion;
+        $prod->imagen = "";
+        $prod->categoria_id = $request->categoria_id;
+        $prod->save();
+        return redirect("/producto")->with("ok", "Producto Registrado");        
     }
 
     /**
@@ -45,7 +63,9 @@ class ProductoController extends Controller
      */
     public function show($id)
     {
-        //
+        $producto = Producto::find($id);
+        return view("admin.producto.mostrar", compact("producto"));
+
     }
 
     /**
@@ -56,7 +76,8 @@ class ProductoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categorias = Categoria::all();
+        return view("admin.producto.editar", compact("categorias"));
     }
 
     /**
@@ -68,7 +89,21 @@ class ProductoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //validar
+
+        //modificar
+        $prod = Producto::find($id);
+
+        $prod->nombre = $request->nombre;
+        $prod->precio = $request->precio;
+        $prod->cantidad = $request->cantidad;
+        $prod->descripcion = $request->descripcion;
+        $prod->imagen = "";
+        $prod->categoria_id = $request->categoria_id;
+        $prod->save();
+
+        return redirect("/producto")->with("ok", "Producto Modificado");
+
     }
 
     /**
@@ -79,6 +114,9 @@ class ProductoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $prod = Producto::find($id);
+        $prod->delete();
+        
+        return redirect("/producto")->with("ok", "Producto Eliminado");
     }
 }

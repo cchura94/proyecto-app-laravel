@@ -1,3 +1,6 @@
+@extends("layouts.admin")
+@section("contenedor")
+
 <h1>Mostrar Categoria</h1>
 
     <label for="">Nombre de Categoria:</label>
@@ -5,3 +8,4 @@
     <br>
     <label for="">Detalle de Categoria:</label>
     <textarea name="detalle" disabled>{{ $categoria->detalle }}</textarea>
+@endsection

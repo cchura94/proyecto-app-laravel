@@ -1,8 +1,11 @@
+@extends("layouts.admin")
+@section("contenedor")
+
 <h1>Listar Categorias</h1>
 <a href="/categoria/create">Nueva Categoria</a>
 
 <form action="/categoria" method="get">
-    <input type="search" name="buscar">
+    <input type="search" name="buscar" class="form-control">
     <input type="submit" value="buscar">
 </form>
 
@@ -11,7 +14,7 @@
     <input type="date" name="ffin">
     <input type="submit">
 </form>
-<table border="1">
+<table class="table table-hover table-striped">
     <tr>
         <td>ID</td>
         <td>NOMBRE</td>
@@ -39,3 +42,6 @@
 
 TOTAL: {{ $categorias->total() }}
 {{ $categorias->links() }}
+
+
+@endsection
