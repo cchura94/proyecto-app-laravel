@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\Categoria;
+use Illuminate\Support\Facades\DB;
 
 class ProductoController extends Controller
 {
@@ -16,6 +17,8 @@ class ProductoController extends Controller
     public function index()
     {
         $productos = Producto::paginate(10);
+        //Producto::join("categorias", "productos.categoria_id", "=", "categorias.id")->get()
+        //DB::select("select p.*, c.nombre from productos as p, categorias as c inner join ()")
         return view("admin.producto.listar", compact("productos"));
     }
 

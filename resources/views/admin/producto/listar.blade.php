@@ -1,5 +1,8 @@
 @extends("layouts.admin")
 
+@section("titulo", "Lista de Productos")
+
+
 @section("css")
   <!-- DataTables -->
   <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -9,6 +12,7 @@
 
 
 @section("contenedor")
+<a href="{{ route('producto.create') }}" class="btn btn-success">Nuevo Producto</a>
 <h1>Listar Productos</h1>
 
 <table id="example1" class="table table-striped table-hover">
@@ -17,6 +21,7 @@
         <td>NOMBRE</td>
         <td>PRECIO</td>
         <td>STOCK</td>
+        <td>CATEGORIA</td>
         <td>IMAGEN</td>
         <td>ACCIONES</td>
     </tr>
@@ -29,9 +34,12 @@
         <td>{{ $prod->nombre }}</td>
         <td>{{ $prod->precio }}</td>
         <td>{{ $prod->cantidad }}</td>
+        <td>{{ $prod->categoria->nombre }}</td>
         <td>{{ $prod->imagen }}</td>
         <td>
-            
+            <a href="{{ route('producto.show',$prod->id) }}" class="btn btn-success">Mostrar</a>
+            <a href="{{ route('producto.edit',$prod->id) }}" class="btn btn-warning">Editar</a>
+
         </td>
     </tr>
     @endforeach
