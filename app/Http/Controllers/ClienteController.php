@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Cliente;
 
 class ClienteController extends Controller
 {
@@ -13,7 +14,9 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        //
+        $clientes = Cliente::All();
+        return view("admin.cliente.listar", compact("clientes"));
+
     }
 
     /**
@@ -34,7 +37,13 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $clie = new Cliente;
+        $clie->nombres = $request->nombres;
+        $clie->apellidos = $request->apellidos;
+        $clie->ci_nit = $request->ci_nit;
+        $clie->save();
+        
+        return redirect("/cliente");
     }
 
     /**

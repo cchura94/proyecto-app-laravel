@@ -12,9 +12,17 @@
 <br>
 {{asset("build/config/postcss.config.js")}}
 
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
-
-<form action="{{ route('producto.store') }}" method="post">
+<form action="{{ route('producto.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="row">
         <div class="col-md-6">
@@ -42,6 +50,7 @@
 
         <div class="col-md-6">
             <label for="">Imagen Producto:</label>
+            <input type="hidden" name="MAX_FILE_SIZE" value="50" />
             <input type="file" name="imagen" class="form-control">
         </div>
         <div class="col-md-6">

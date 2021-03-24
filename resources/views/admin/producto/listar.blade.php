@@ -35,7 +35,9 @@
         <td>{{ $prod->precio }}</td>
         <td>{{ $prod->cantidad }}</td>
         <td>{{ $prod->categoria->nombre }}</td>
-        <td>{{ $prod->imagen }}</td>
+        <td>
+          <img src="{{ asset($prod->imagen) }}" width="130px" alt="">        
+        </td>
         <td>
             <a href="{{ route('producto.show',$prod->id) }}" class="btn btn-success">Mostrar</a>
             <a href="{{ route('producto.edit',$prod->id) }}" class="btn btn-warning">Editar</a>
