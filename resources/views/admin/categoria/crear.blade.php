@@ -15,7 +15,7 @@
 @endif
 
 
-<form action="/categoria" method="post">
+<form action="{{ route('categoria.store') }}" method="post">
     @csrf
     <label for="">Nombre de Categoria:</label>
     <input type="text" name="nombre" required value="{{ old('nombre') }}">

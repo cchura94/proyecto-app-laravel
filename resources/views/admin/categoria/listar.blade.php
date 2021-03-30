@@ -1,4 +1,7 @@
 @extends("layouts.admin")
+
+@section("titulo", "Lista Categorias")
+
 @section("contenedor")
 
 <h1>Listar Categorias</h1>

@@ -12,12 +12,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource("/categoria", CategoriaController::class);
-Route::resource("/producto", ProductoController::class);
-Route::resource("/cliente", ClienteController::class);
-Route::resource("/pedido", PedidoController::class);
-Route::resource("/usuario", UsuarioController::class);
-Route::resource("/role", RoleController::class);
+
+Route::prefix("admin")->group(function (){
+    
+    Route::get('/', function () {
+        return view('admin.index');
+    })->name("admin_inicio");
+
+    Route::resource("/categoria", CategoriaController::class);
+    Route::resource("/producto", ProductoController::class);
+    Route::resource("/cliente", ClienteController::class);
+    Route::resource("/pedido", PedidoController::class);
+    Route::resource("/usuario", UsuarioController::class);
+    Route::resource("/role", RoleController::class);
+});
+
+
 
 //Route::get("/qr", [CategoriaController::class, "generarQR"]);
 

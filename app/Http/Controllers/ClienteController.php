@@ -12,10 +12,18 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clientes = Cliente::All();
-        return view("admin.cliente.listar", compact("clientes"));
+        //return $request->buscar;
+        if(isset($request->buscar)){
+            
+             //$request->buscar;
+             $datos = Cliente::where('ci_nit', 'like', '%'.$request->buscar."%")->get();
+             return response()->json($datos, 200);
+        }else{
+            $clientes = Cliente::All();
+            return view("admin.cliente.listar", compact("clientes"));
+        }        
 
     }
 
@@ -43,7 +51,7 @@ class ClienteController extends Controller
         $clie->ci_nit = $request->ci_nit;
         $clie->save();
         
-        return redirect("/cliente");
+        return redirect("/admin/cliente");
     }
 
     /**

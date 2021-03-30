@@ -71,7 +71,7 @@ class ProductoController extends Controller
         $prod->imagen = "/imagenes/".$nombre_imagen;
         $prod->categoria_id = $request->categoria_id;
         $prod->save();
-        return redirect("/producto")->with("ok", "Producto Registrado");        
+        return redirect("/admin/producto")->with("ok", "Producto Registrado");        
     }
 
     /**
@@ -121,7 +121,7 @@ class ProductoController extends Controller
         $prod->categoria_id = $request->categoria_id;
         $prod->save();
 
-        return redirect("/producto")->with("ok", "Producto Modificado");
+        return redirect("/admin/producto")->with("ok", "Producto Modificado");
 
     }
 
@@ -136,6 +136,6 @@ class ProductoController extends Controller
         $prod = Producto::find($id);
         $prod->delete();
         
-        return redirect("/producto")->with("ok", "Producto Eliminado");
+        return redirect("/admin/producto")->with("ok", "Producto Eliminado");
     }
 }

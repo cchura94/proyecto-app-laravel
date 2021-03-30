@@ -66,7 +66,7 @@ class CategoriaController extends Controller
         $cat->detalle = $request->detalle;
         $cat->save();
 
-        return redirect("/categoria");
+        return redirect("/admin/categoria");
     }
 
     /**
@@ -107,7 +107,7 @@ class CategoriaController extends Controller
         $cat->detalle = $request->detalle;
         $cat->save();
 
-        return redirect("/categoria");
+        return redirect("/admin/categoria");
     }
 
     /**
@@ -120,7 +120,7 @@ class CategoriaController extends Controller
     {
         $cat = Categoria::find($id);
         $cat->delete();
-        return redirect("/categoria");
+        return redirect("/admin/categoria");
     }
 
     

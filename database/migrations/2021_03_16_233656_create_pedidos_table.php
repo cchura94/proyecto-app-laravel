@@ -18,6 +18,7 @@ class CreatePedidosTable extends Migration
             $table->datetime("fecha_pedido");
             $table->string("codigo_qr")->nullable();
             $table->bigInteger("cliente_id")->unsigned();
+            $table->integer("estado")->default(0);
             $table->foreign("cliente_id")->references("id")->on("clientes");
             $table->timestamps();
         });

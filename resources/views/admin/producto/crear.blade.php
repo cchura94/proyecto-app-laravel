@@ -50,7 +50,7 @@
 
         <div class="col-md-6">
             <label for="">Imagen Producto:</label>
-            <input type="hidden" name="MAX_FILE_SIZE" value="50" />
+            <!--input type="hidden" name="MAX_FILE_SIZE" value="50" /-->
             <input type="file" name="imagen" class="form-control">
         </div>
         <div class="col-md-6">
