@@ -13,4 +13,9 @@ class Pedido extends Model
     {
         return $this->belongsToMany("App\Models\Producto");
     }
+
+    public function cliente()
+    {
+        return $this->belongsTo("App\Models\Cliente");
+    }
 }

@@ -56,6 +56,9 @@ class PedidoController extends Controller
         $carrito = $request->carrito;
 
         $pedido = Pedido::find($id_pedido);
+        $pedido->cliente_id = $id_cliente;
+        $pedido->estado = 1;
+        $pedido->save();
         
         foreach ($carrito as $prod) {
             //return $prod['idprod'];

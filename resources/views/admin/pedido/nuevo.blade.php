@@ -15,7 +15,7 @@
                         <input type="text" class="form-control" value="{{ $pedido->id }}" readonly name="id_pedido" id="id_pedido">
                     </div>
                     <div class="col-md-4">
-                        QR
+                        {!! QrCode::size(150)->generate($pedido->id); !!}
                     </div>
                     <div class="col-md-4">
                     <label for="">FECHA P:</label>
@@ -46,20 +46,14 @@
     <tr>
         <td>{{ $prod->nombre }}</td>
         <td>{{ $prod->precio }}</td>
-        <td>
-            <select name="cantidad_comprar[{{$prod->id}}][]" id="" class="form-control" required>
-                <option value="">Seleccionar</option>
-                @for($i = 1; $i <= $prod->cantidad; $i++)
-                <option value="{{ $i }}">{{ $i }}</option>                    
-                @endfor
-            </select>
-        </td>
+        <td>{{ $prod->cantidad }}</td>
+            
         <td>{{ $prod->categoria->nombre }}</td>
         <td>
           <img src="{{ asset($prod->imagen) }}" width="100px" alt="">        
         </td>
         <td>
-            <input type="checkbox" name="productos[]" class="form-control" value="{{ $prod->id }}">
+            <!--input type="checkbox" name="productos[]" class="form-control" value="{{ $prod->id }}"-->
             <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Modal{{ $prod->id }}">
   seleccionar
@@ -77,6 +71,7 @@
       </div>
       <div class="modal-body">
             <h2>NOMBRE: {{ $prod->nombre }}</h2>
+            <h3>Seleccione Cantidad:</h3>
             <select id="cant-{{$prod->id}}" class="form-control" required>
                 <option value="">Seleccionar</option>
                 @for($i = 1; $i <= $prod->cantidad; $i++)
@@ -125,14 +120,22 @@
                 <div class="card">
                     <div class="card-body">
                         <h1>Datos Cliente</h1>
+
+                        <input type="hidden" id="id_cliente">
+                        <label for="">NOMBRES</label>
+                        <input type="text" id="nombres" class="form-control" readonly>
+                        <label for="">APELLIDOS</label>
+                        <input type="text" id="apellidos" class="form-control" readonly>
+                        <label for="">CI / NIT</label>
+                        <input type="text" id="ci_nit" class="form-control" readonly>
                         
                         <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#clieModal">
   CLIENTE
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="clieModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -214,10 +217,11 @@ var productos = [];
 
     function realizarPedido() {
         var id_ped = document.getElementById("id_pedido").value;
+        var id_clie = document.getElementById("id_cliente").value;
 
         var pedido = {
             id_pedido: id_ped,
-            id_cliente: 1,
+            id_cliente: id_clie,
             carrito: productos 
         }
         console.log(pedido);
@@ -258,11 +262,12 @@ var productos = [];
             var cad = ``;
             for (let i = 0; i < resultado.length; i++) {
                 const cliente = resultado[i];
+                var cli_cad = JSON.stringify(cliente);
                 cad += `<tr>
                 <td>${cliente.nombres}</td>
                     <td>${cliente.apellidos}</td>
                     <td>${cliente.ci_nit}</td>   
-                    <td><button>seleccionar</button></td>                 
+                    <td><button onclick='seleccionar_cliente(${cli_cad})'>seleccionar</button></td>                 
                 </tr>`;
             }
             document.getElementById("datoscliente").innerHTML = cad
@@ -270,6 +275,17 @@ var productos = [];
         .catch(function(error){
             console.log(error);
         });
+    }
+
+    function seleccionar_cliente(cliente) {
+        console.log(cliente);
+        document.getElementById("nombres").value = cliente.nombres;
+        document.getElementById("apellidos").value = cliente.apellidos;
+        document.getElementById("ci_nit").value = cliente.ci_nit;
+         document.getElementById("id_cliente").value = cliente.id;
+       
+        
+        $('#clieModal').modal('hide');
     }
 </script>
 @endsection

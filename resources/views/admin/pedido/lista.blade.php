@@ -13,7 +13,7 @@
             <th>FECHA PEDIDO</th>
             <th>CLIENTE</th>
             <th>QR</th>
-            <th>ACCIONES</th>
+            <th>PRODUCTOS</th>
         </tr>
     </thead>
     <tbody>
@@ -21,10 +21,14 @@
             <tr>
                 <td>{{ $ped->id }}</td>
                 <td>{{ $ped->created_at }}</td>
-                <td> {{ $ped->cliente_id }} </td>
-                <td>---------</td>
+                <td> {{ $ped->cliente->nombres }} {{ $ped->cliente->apellidos }} - {{ $ped->cliente->ci_nit }} </td>
+                <td>{!! QrCode::size(100)->generate($ped->id); !!}</td>
                 <td>
-
+                  <ol>
+                    @foreach ($ped->productos as $prod)
+                      <li>{{$prod->nombre}}</li>
+                    @endforeach                  
+                  </ol>
                 </td>
             </tr>
         @endforeach
