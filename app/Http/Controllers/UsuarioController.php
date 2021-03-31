@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Role;
 
 class UsuarioController extends Controller
 {
@@ -13,7 +15,8 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        //
+        $usuarios = User::all();
+        return view("admin.usuario.listar", compact('usuarios'));
     }
 
     /**
@@ -23,7 +26,8 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::all();
+        return view("admin.usuario.crear", compact("roles"));
     }
 
     /**
@@ -34,9 +38,18 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        // asignamos los roles al usuario
+        $user->roles()->attach($request->roles);
+        return redirect("/admin/usuario");
     }
 
+    
     /**
      * Display the specified resource.
      *
@@ -56,7 +69,9 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        $roles = Role::all();
+        return view("admin.usuario.editar", compact("user", "roles"));
     }
 
     /**
@@ -68,7 +83,15 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $usuario = User::find($id);
+        $usuario->name = $request->name;
+        $usuario->email = $request->email;
+        $usuario->password = bcrypt($request->password);
+
+        $usuario->roles()->sync($request->roles);
+
+        return redirect("/admin/usuario")->with("mensaje", "Usuario Modificado");
     }
 
     /**

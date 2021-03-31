@@ -21,7 +21,7 @@ Route::prefix("admin")->middleware(["auth"])->group(function (){
     })->name("admin_inicio");
 
     Route::resource("/categoria", CategoriaController::class)->middleware(["role:cajero"]);
-    Route::resource("/producto", ProductoController::class)->middleware("role:admin");
+    Route::resource("/producto", ProductoController::class);
     Route::resource("/cliente", ClienteController::class)->middleware("role:cajero");
     Route::resource("/pedido", PedidoController::class)->middleware("role:cajero");
     Route::resource("/usuario", UsuarioController::class)->middleware("role:admin");

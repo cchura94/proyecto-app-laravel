@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\DB;
 
 class ProductoController extends Controller
 {
+    public function __construct() {
+        $this->middleware('role:admin', ['except' => ['index', 'show']]); 
+    }
     /**
      * Display a listing of the resource.
      *
